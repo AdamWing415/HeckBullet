@@ -50,7 +50,7 @@ namespace HeckBullet
                     {
                         x -= 5;
                     }
-                    image = Properties.Resources.HeroShip_upside_down_;
+               
 
                     break;
                 case "right":
@@ -59,7 +59,7 @@ namespace HeckBullet
                         x += 5;
                         
                     }
-                    image = Properties.Resources.HeroShip_upside_down_;
+                    
                     break;
                 case "forward":
                     if (y > 155)
@@ -67,7 +67,7 @@ namespace HeckBullet
                         y -= 5;
                         
                     }
-                    image = Properties.Resources.HeroShip_upside_down_;
+                    
                     break;
                 case "backward":
                     if (y <= 500)
@@ -75,7 +75,7 @@ namespace HeckBullet
                         y += 5;
                         
                     }
-                    image = Properties.Resources.HeroShip_upside_down_;
+                    
                     break;
 
             

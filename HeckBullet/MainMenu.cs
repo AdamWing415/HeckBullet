@@ -31,5 +31,10 @@ namespace HeckBullet
 
             gs.Location = new Point(Form1.Width / 2 - gs.Width / 2, Form1.Height / 2 - gs.Height / 2);
         }
+
+        private void MainMenu_Load(object sender, EventArgs e)
+        {
+            startButton.Focus();
+        }
     }
 }

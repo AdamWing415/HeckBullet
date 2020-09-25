@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.endlabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -38,11 +39,23 @@
             this.gameTimer.Interval = 15;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
+            // endlabel
+            // 
+            this.endlabel.BackColor = System.Drawing.Color.Maroon;
+            this.endlabel.Font = new System.Drawing.Font("Dutch801 XBd BT", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.endlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.endlabel.Location = new System.Drawing.Point(287, 193);
+            this.endlabel.Name = "endlabel";
+            this.endlabel.Size = new System.Drawing.Size(317, 171);
+            this.endlabel.TabIndex = 0;
+            this.endlabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.endlabel.Visible = false;
+            // 
             // GameScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Controls.Add(this.endlabel);
             this.DoubleBuffered = true;
             this.Name = "GameScreen";
             this.Size = new System.Drawing.Size(900, 700);
@@ -57,5 +70,6 @@
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label endlabel;
     }
 }

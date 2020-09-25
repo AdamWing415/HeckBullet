@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HeckBullet.Properties;
+using System.Threading;
 
 namespace HeckBullet
 {
@@ -20,17 +21,21 @@ namespace HeckBullet
 
         SolidBrush healthBrush = new SolidBrush(Color.Red);
 
-        bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, QDown, dodging, invincible;
+        bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
 
-        int x, y, size, heroHealth, BossHealth;
+        int x, y, size, heroHealth, BossHealth, bulletSpeed;
 
         int counter, dodgeCounter;
+
+        int i = 0;
+        int hero = 0;
+        int boss = 1;
 
         String direction;
 
         Image image;
 
-
+        Random randGen = new Random();
 
         public GameScreen()
         {
@@ -44,11 +49,15 @@ namespace HeckBullet
             ships.Add(hero);
             Ship boss = new Ship(this.Width / 2 - 150, 0, 300, 150, Resources.placeholder);
             ships.Add(boss);
+
+
+
             heroHealth = 2;
             BossHealth = 2000;
             size = 15;
-            dodgeCounter = 25;
+            dodgeCounter = 30;
             dodging = false;
+            bulletSpeed = 4;
         }
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -57,8 +66,8 @@ namespace HeckBullet
                 case Keys.Space:
                     spaceDown = true;
                     break;
-                case Keys.Q:
-                    QDown = true;
+                case Keys.M:
+                    mDown = true;
                     break;
                 case Keys.W:
                     wKeyDown = true;
@@ -83,8 +92,8 @@ namespace HeckBullet
                 case Keys.Space:
                     spaceDown = false;
                     break;
-                case Keys.Q:
-                    QDown = false;
+                case Keys.M:
+                    mDown = false;
                     break;
                 case Keys.W:
                     wKeyDown = false;
@@ -102,13 +111,23 @@ namespace HeckBullet
         }
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            Rectangle heroRec = new Rectangle(ships[0].x, ships[0].y, ships[0].width, ships[0].height);
-            Rectangle bossRec = new Rectangle(ships[1].x, ships[1].y, ships[1].width, ships[1].height);
+            Rectangle heroRec = new Rectangle(ships[hero].x, ships[hero].y, ships[hero].width - ships[hero].width / 2, ships[hero].height);
+            Rectangle bossRec = new Rectangle(ships[boss].x, ships[boss].y, ships[boss].width, ships[boss].height);
+
+            if (BossHealth == 1000)
+            {
+                bulletSpeed = 6;
+                Lines();
+                y = 200;
+            }
 
             foreach (Bullet b in HeroBullets)
             {
                 b.HeroBulletMove(5);
             }
+
+            randomPattern(bulletSpeed);
+
 
             if (dodging == false)
             {
@@ -116,30 +135,32 @@ namespace HeckBullet
                 {
                     fire();
                 }
-                if (aKeyDown == true && ships[0].x > 0)
+                if (aKeyDown == true && ships[hero].x > 0)
                 {
-                    ships[0].heroMove("left");
+                    ships[hero].heroMove("left");
                 }
-                if (wKeyDown == true && ships[0].y > ships[1].height)
+                if (wKeyDown == true && ships[hero].y > ships[1].height)
                 {
-                    ships[0].heroMove("forward");
+                    ships[hero].heroMove("forward");
                 }
-                if (sKeyDown == true && ships[0].y < this.Height - ships[0].height)
+                if (sKeyDown == true && ships[hero].y < this.Height - ships[0].height)
                 {
-                    ships[0].heroMove("backward");
+                    ships[hero].heroMove("backward");
                 }
-                if (dKeyDown == true && ships[0].x < this.Width - ships[0].width)
+                if (dKeyDown == true && ships[hero].x < this.Width - ships[0].width)
                 {
-                    ships[0].heroMove("right");
+                    ships[hero].heroMove("right");
                 }
-                if (QDown == true)
+                if (mDown == true)
                 {
                     dodging = true;
                 }
             }
+
             else if (dodging == true)
             {
-                ships[0].dodge(direction);
+                ships[hero].image = Properties.Resources.HeroShip_upside_down_;
+                ships[hero].dodge(direction);
 
                 if (aKeyDown == true)
                 {
@@ -158,7 +179,7 @@ namespace HeckBullet
                     direction = "right";
                 }
 
-                if (dodgeCounter > 10)
+                if (dodgeCounter > 8)
                 {
                     invincible = true;
                 }
@@ -170,8 +191,8 @@ namespace HeckBullet
                 if (dodgeCounter == 0)
                 {
                     dodging = false;
-                    dodgeCounter = 25;
-                    ships[0].image = Resources.HeroShip_fw1_;
+                    dodgeCounter = 30;
+                    ships[hero].image = Resources.HeroShip_fw1_;
                 }
 
                 dodgeCounter--;
@@ -189,15 +210,47 @@ namespace HeckBullet
                 if (newRec.IntersectsWith(bossRec))
                 {
                     BossHealth--;
-                    b.y = -50;
+                    b.y = 0;
+                    b.x = -10;
                 }
             }
+            foreach (Bullet b in enemyBullet)
+            {
+                Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
+                if (newRec.IntersectsWith(heroRec) && invincible == false)
+                {
+                    heroHealth--;
+                    b.y = 0;
+                    b.x = -10;
+                    hit = true;
+                    dodgeCounter = 50;
+                }
+            }
+
+            if (hit == true && dodgeCounter > 0)
+            {
+                invincible = true;
+                dodgeCounter--;
+                ships[hero].image = Resources.HeroShip_upside_down_;
+            }
+            else if (hit == true && dodgeCounter == 0)
+            {
+                invincible = false;
+                hit = false;
+                dodgeCounter = 25;
+                ships[hero].image = Resources.HeroShip_fw1_;
+            }
+
             if (BossHealth == 0)
             {
                 win();
             }
+            if (heroHealth == 0)
+            {
+                lose();
+            }
             counter++;
-
+            i++;
             Refresh();
 
         }
@@ -208,24 +261,104 @@ namespace HeckBullet
                 e.Graphics.DrawImage(b.image, b.x, b.y);
             }
 
+            foreach (Bullet b in enemyBullet)
+            {
+                e.Graphics.DrawImage(b.image, b.x, b.y);
+            }
+
             foreach (Ship s in ships)
             {
                 e.Graphics.DrawImage(s.image, s.x, s.y, s.width, s.height);
             }
             e.Graphics.FillRectangle(healthBrush, this.Width / 2 - 250, 20, BossHealth / 4, 30);
 
+            if (heroHealth == 2)
+            {
+                e.Graphics.FillRectangle(healthBrush, 25, this.Height - 25, 50, 15);
+                e.Graphics.FillRectangle(healthBrush, 100, this.Height - 25, 50, 15);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(healthBrush, 25, this.Height - 25, 50, 15);
+            }
+
+
         }
         private void fire()
         {
-            x = ships[0].x + 3;
-            y = ships[0].y;
+            x = ships[hero].x + 3;
+            y = ships[hero].y;
             image = Properties.Resources.HeroBullet;
             Bullet newBullet = new Bullet(x, y, size, image);
             HeroBullets.Add(newBullet);
         }
         private void win()
         {
+            gameTimer.Stop();
+            endlabel.Show();
+            endlabel.Text = "YOU WIN!";
+            Refresh();
+            Thread.Sleep(2500);
 
+            Form Form1 = this.FindForm();
+            Form1.Controls.Remove(this);
+            MainMenu mm = new MainMenu();
+            Form1.Controls.Add(mm);
+
+            mm.Location = new Point(Form1.Width / 2 - mm.Width / 2, Form1.Height / 2 - mm.Height / 2);
+        }
+        private void lose()
+        {
+            gameTimer.Stop();
+            endlabel.Show();
+            endlabel.Text = "YOU DIED";
+            Refresh();
+            Thread.Sleep(2500);
+
+            Form Form1 = this.FindForm();
+            Form1.Controls.Remove(this);
+            MainMenu mm = new MainMenu();
+            Form1.Controls.Add(mm);
+
+            mm.Location = new Point(Form1.Width / 2 - mm.Width / 2, Form1.Height / 2 - mm.Height / 2);
+        }
+        private void randomPattern(int speed)
+        {
+            if (enemyBullet.Count() < 50 && counter % 4 == 0)
+            {
+                size = 25;
+                y = 0;
+
+                x = randGen.Next(1, this.Width - size);
+
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet);
+            }
+            foreach (Bullet b in enemyBullet)
+            {
+                b.randomMove(speed);
+            }
+            if (enemyBullet[0].y > this.Height)
+            {
+                enemyBullet.RemoveAt(0);
+            }
+        }
+
+        private void Lines()
+        {
+            if (i < 48)
+            {
+
+                x = 200;
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet);
+                x = this.Width - 200;
+                Bullet newBullet2 = new Bullet(x, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet2);
+
+                y += 10;
+
+            }
         }
     }
 }

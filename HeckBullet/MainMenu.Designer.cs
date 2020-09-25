@@ -34,6 +34,7 @@
             // 
             // startButton
             // 
+            this.startButton.Font = new System.Drawing.Font("Dutch801 XBd BT", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startButton.Location = new System.Drawing.Point(340, 380);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(200, 70);
@@ -44,6 +45,7 @@
             // 
             // quitButton
             // 
+            this.quitButton.Font = new System.Drawing.Font("Dutch801 XBd BT", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.quitButton.Location = new System.Drawing.Point(340, 456);
             this.quitButton.Name = "quitButton";
             this.quitButton.Size = new System.Drawing.Size(200, 70);
@@ -54,13 +56,13 @@
             // 
             // MainMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Teal;
             this.Controls.Add(this.quitButton);
             this.Controls.Add(this.startButton);
             this.Name = "MainMenu";
             this.Size = new System.Drawing.Size(900, 700);
+            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.ResumeLayout(false);
 
         }

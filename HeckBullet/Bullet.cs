@@ -25,5 +25,9 @@ namespace HeckBullet
         {
             y -= speed;
         }
+        public void randomMove (int speed)
+        {
+            y += speed;
+        }
     }
 }
