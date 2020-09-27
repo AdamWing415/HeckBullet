@@ -47,11 +47,11 @@ namespace HeckBullet
             this.Focus();
             Ship hero = new Ship(this.Width / 2 - 25, this.Height / 2 + 200, 50, 50, Resources.HeroShip_fw1_);
             ships.Add(hero);
-            Ship boss = new Ship(this.Width / 2 - 150, 0, 300, 150, Resources.placeholder);
+            Ship boss = new Ship(this.Width / 2 - 300, 0, 600, 200, Resources.boss);
             ships.Add(boss);
 
 
-
+            x = 200;
             heroHealth = 2;
             BossHealth = 2000;
             size = 15;
@@ -112,7 +112,7 @@ namespace HeckBullet
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             Rectangle heroRec = new Rectangle(ships[hero].x, ships[hero].y, ships[hero].width - ships[hero].width / 2, ships[hero].height);
-            Rectangle bossRec = new Rectangle(ships[boss].x, ships[boss].y, ships[boss].width, ships[boss].height);
+            Rectangle bossRec = new Rectangle(ships[boss].x, ships[boss].y, ships[boss].width, ships[boss].height - 100);
 
             if (BossHealth == 1000)
             {
@@ -126,7 +126,10 @@ namespace HeckBullet
                 b.HeroBulletMove(5);
             }
 
-            randomPattern(bulletSpeed);
+            //ADD RANDOM ATTACKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            waves();
+            //randomPattern(bulletSpeed);
 
 
             if (dodging == false)
@@ -211,7 +214,7 @@ namespace HeckBullet
                 {
                     BossHealth--;
                     b.y = 0;
-                    b.x = -10;
+                    b.x = -50;
                 }
             }
             foreach (Bullet b in enemyBullet)
@@ -221,7 +224,7 @@ namespace HeckBullet
                 {
                     heroHealth--;
                     b.y = 0;
-                    b.x = -10;
+                    b.x = -50;
                     hit = true;
                     dodgeCounter = 50;
                 }
@@ -241,7 +244,7 @@ namespace HeckBullet
                 ships[hero].image = Resources.HeroShip_fw1_;
             }
 
-            if (BossHealth == 0)
+            if (BossHealth <= 0)
             {
                 win();
             }
@@ -270,7 +273,7 @@ namespace HeckBullet
             {
                 e.Graphics.DrawImage(s.image, s.x, s.y, s.width, s.height);
             }
-            e.Graphics.FillRectangle(healthBrush, this.Width / 2 - 250, 20, BossHealth / 4, 30);
+            e.Graphics.FillRectangle(healthBrush, 20, 20, 30, BossHealth /4);
 
             if (heroHealth == 2)
             {
@@ -358,6 +361,41 @@ namespace HeckBullet
 
                 y += 10;
 
+            }
+
+        }
+        // needs som fixin'
+        private void waves()
+        {
+            if (x <= randGen.Next(1, 200) && counter %4 ==0)
+            {
+
+
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet);
+                Bullet newBullet2 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet2);
+                Bullet newBullet3 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet3);
+                x++;
+            }
+            else if (x < randGen.Next(this.Width - 200, this.Width) && counter % 4 == 0)
+            {
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet);
+                Bullet newBullet2 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet2);
+                Bullet newBullet3 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
+                enemyBullet.Add(newBullet3);
+                x--;
+            }
+            foreach (Bullet b in enemyBullet)
+            {
+                b.randomMove(bulletSpeed);
+            }
+            if (enemyBullet[0].y > this.Height)
+            {
+                enemyBullet.RemoveAt(0);
             }
         }
     }
