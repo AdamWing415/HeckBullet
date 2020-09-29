@@ -19,7 +19,7 @@ namespace HeckBullet
         List<Bullet> enemyBullet = new List<Bullet>();
         List<Ship> ships = new List<Ship>();
 
-        SolidBrush healthBrush = new SolidBrush(Color.Red);
+        SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
 
         bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
 
@@ -248,7 +248,7 @@ namespace HeckBullet
             {
                 win();
             }
-            if (heroHealth == 0)
+            if (heroHealth <= 0)
             {
                 lose();
             }
@@ -299,7 +299,7 @@ namespace HeckBullet
         {
             gameTimer.Stop();
             endlabel.Show();
-            endlabel.Text = "YOU WIN!";
+            endlabel.Text = "VICTORY ACHIEVED";
             Refresh();
             Thread.Sleep(2500);
 
@@ -364,31 +364,40 @@ namespace HeckBullet
             }
 
         }
-        // needs som fixin'
+
         private void waves()
         {
-            if (x <= randGen.Next(1, 200) && counter %4 ==0)
+            if (enemyBullet.Count() > 4)
+            {
+                x = enemyBullet[enemyBullet.Count() - 5].x;
+            }
+
+            if (x <= randGen.Next(2, 200) && counter %4 ==0)
             {
 
-
-                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet);
-                Bullet newBullet2 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet2);
-                Bullet newBullet3 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet3);
-                x++;
+                x += randGen.Next(10,16);
+                y = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                    enemyBullet.Add(newBullet);
+                    x += 150;
+                }
             }
-            else if (x < randGen.Next(this.Width - 200, this.Width) && counter % 4 == 0)
+            else if (x < randGen.Next(this.Width - 200, this.Width- 1) && counter % 4 == 0)
             {
-                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet);
-                Bullet newBullet2 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet2);
-                Bullet newBullet3 = new Bullet(x + 150, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet3);
-                x--;
+                
+                x -= randGen.Next(10, 16);
+                y = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                    enemyBullet.Add(newBullet);
+                    x += 150;
+                }
             }
+
+
             foreach (Bullet b in enemyBullet)
             {
                 b.randomMove(bulletSpeed);

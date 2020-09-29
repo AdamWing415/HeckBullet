@@ -41,12 +41,12 @@
             // 
             // endlabel
             // 
-            this.endlabel.BackColor = System.Drawing.Color.Maroon;
-            this.endlabel.Font = new System.Drawing.Font("Dutch801 XBd BT", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.endlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.endlabel.Location = new System.Drawing.Point(287, 193);
+            this.endlabel.BackColor = System.Drawing.Color.Transparent;
+            this.endlabel.Font = new System.Drawing.Font("Century Gothic", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.endlabel.ForeColor = System.Drawing.Color.OrangeRed;
+            this.endlabel.Location = new System.Drawing.Point(0, 308);
             this.endlabel.Name = "endlabel";
-            this.endlabel.Size = new System.Drawing.Size(317, 171);
+            this.endlabel.Size = new System.Drawing.Size(900, 120);
             this.endlabel.TabIndex = 0;
             this.endlabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.endlabel.Visible = false;
@@ -55,6 +55,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackgroundImage = global::HeckBullet.Properties.Resources.nebula;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.endlabel);
             this.DoubleBuffered = true;
             this.Name = "GameScreen";

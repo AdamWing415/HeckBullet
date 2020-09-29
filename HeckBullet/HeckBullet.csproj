@@ -127,5 +127,17 @@
   <ItemGroup>
     <None Include="Resources\boss.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nebula.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\victory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\died.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\title.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
