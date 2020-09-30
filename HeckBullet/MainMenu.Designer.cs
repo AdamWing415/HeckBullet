@@ -44,7 +44,7 @@
             this.startButton.ForeColor = System.Drawing.Color.OrangeRed;
             this.startButton.Location = new System.Drawing.Point(16, 535);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(200, 70);
+            this.startButton.Size = new System.Drawing.Size(209, 70);
             this.startButton.TabIndex = 0;
             this.startButton.Text = "START";
             this.startButton.UseVisualStyleBackColor = false;
@@ -61,7 +61,7 @@
             this.quitButton.ForeColor = System.Drawing.Color.OrangeRed;
             this.quitButton.Location = new System.Drawing.Point(16, 611);
             this.quitButton.Name = "quitButton";
-            this.quitButton.Size = new System.Drawing.Size(200, 70);
+            this.quitButton.Size = new System.Drawing.Size(209, 70);
             this.quitButton.TabIndex = 1;
             this.quitButton.Text = "QUIT";
             this.quitButton.UseVisualStyleBackColor = false;

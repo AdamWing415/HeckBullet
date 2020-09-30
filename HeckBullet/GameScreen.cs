@@ -44,6 +44,8 @@ namespace HeckBullet
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
+            pictureBox1.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
             this.Focus();
             Ship hero = new Ship(this.Width / 2 - 25, this.Height / 2 + 200, 50, 50, Resources.HeroShip_fw1_);
             ships.Add(hero);
