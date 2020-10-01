@@ -17,6 +17,7 @@ namespace HeckBullet
     {
         List<Bullet> HeroBullets = new List<Bullet>();
         List<Bullet> enemyBullet = new List<Bullet>();
+        List<Bullet> specialBullets = new List<Bullet>();
         List<Ship> ships = new List<Ship>();
 
         SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
@@ -27,7 +28,8 @@ namespace HeckBullet
 
         int counter, dodgeCounter;
 
-        int i = 0;
+        int attackType =  0;
+        int previousAttack = 0;
         int hero = 0;
         int boss = 1;
 
@@ -59,7 +61,7 @@ namespace HeckBullet
             size = 15;
             dodgeCounter = 30;
             dodging = false;
-            bulletSpeed = 4;
+            bulletSpeed = 5;
         }
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -120,7 +122,7 @@ namespace HeckBullet
             {
                 bulletSpeed = 6;
                 Lines();
-                y = 200;
+                y = 150;
             }
 
             foreach (Bullet b in HeroBullets)
@@ -129,11 +131,39 @@ namespace HeckBullet
             }
 
             //ADD RANDOM ATTACKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // ADD COMMENTS TOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (counter <= 1)
+            {
+                previousAttack = attackType;
+                attackType = randGen.Next(1, 5);
+            }
+            else if(counter% 800 == 0)
+            {
+                previousAttack = attackType;
+                attackType = randGen.Next(1, 5);
+            }
 
-            waves();
-            //randomPattern(bulletSpeed);
+            if(attackType == 1 && previousAttack != attackType)
+            {
+                waves();
+            }
+            else if (attackType == 2 && previousAttack != attackType)
+            {
+                randomPattern(bulletSpeed);
+            }
+            else if (attackType == 3 && previousAttack != attackType)
+            {
+                blast();
+            }
+            else if (attackType == 4 && previousAttack != attackType)
+            {
 
-
+            }
+            else
+            {
+                attackType = randGen.Next(1, 5);
+            }
+                
             if (dodging == false)
             {
                 if (spaceDown == true && counter % 3 == 0)
@@ -214,7 +244,7 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(bossRec))
                 {
-                    BossHealth--;
+                    BossHealth --;
                     b.y = 0;
                     b.x = -50;
                 }
@@ -255,7 +285,7 @@ namespace HeckBullet
                 lose();
             }
             counter++;
-            i++;
+         
             Refresh();
 
         }
@@ -267,6 +297,10 @@ namespace HeckBullet
             }
 
             foreach (Bullet b in enemyBullet)
+            {
+                e.Graphics.DrawImage(b.image, b.x, b.y);
+            }
+            foreach (Bullet b in specialBullets)
             {
                 e.Graphics.DrawImage(b.image, b.x, b.y);
             }
@@ -348,25 +382,35 @@ namespace HeckBullet
                 enemyBullet.RemoveAt(0);
             }
         }
-
         private void Lines()
         {
-            if (i < 48)
+            for(int i = 0;i <55; i++)
             {
 
                 x = 200;
                 Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet);
+                specialBullets.Add(newBullet);
                 x = this.Width - 200;
                 Bullet newBullet2 = new Bullet(x, y, size, Properties.Resources.bullet);
-                enemyBullet.Add(newBullet2);
-
+                specialBullets.Add(newBullet2);
                 y += 10;
+
+            }
+            x = 0;
+            for (int i = 0; i < 75; i++)
+            {
+
+                y = 250;
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                specialBullets.Add(newBullet);
+                y = this.Height - 150;
+                Bullet newBullet2 = new Bullet(x, y, size, Properties.Resources.bullet);
+                specialBullets.Add(newBullet2);
+                x += 15;
 
             }
 
         }
-
         private void waves()
         {
             if (enemyBullet.Count() > 4)
@@ -408,6 +452,12 @@ namespace HeckBullet
             {
                 enemyBullet.RemoveAt(0);
             }
+        }
+        private void blast()
+        {
+
+
+
         }
     }
 }

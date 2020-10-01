@@ -29,5 +29,13 @@ namespace HeckBullet
         {
             y += speed;
         }
+        public void BMoveRight(int speed)
+        {
+            x += speed;
+        }
+        public void BmoveLeft(int speed)
+        {
+            x -= speed;
+        }
     }
 }
