@@ -157,7 +157,7 @@ namespace HeckBullet
             }
             else if (attackType == 4 && previousAttack != attackType)
             {
-
+                lasers();
             }
             else
             {
@@ -456,7 +456,13 @@ namespace HeckBullet
         private void blast()
         {
 
+            //add this attack
 
+        }
+        private void lasers()
+        {
+
+            //add this attack
 
         }
     }
