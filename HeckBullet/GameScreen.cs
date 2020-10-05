@@ -13,9 +13,16 @@ using System.Media;
 
 namespace HeckBullet
 {
+
+    /// <summary>
+    /// ADAM WINGERT 
+    /// 5/10/2020
+    /// BULLET
+    /// </summary>
     public partial class GameScreen : UserControl
 
     {
+        // lists for bullets and ships
         List<Bullet> HeroBullets = new List<Bullet>();
         List<Bullet> enemyBullet = new List<Bullet>();
         List<Bullet> specialBullets = new List<Bullet>();
@@ -23,12 +30,15 @@ namespace HeckBullet
         List<Bullet> rightEnemyBullet = new List<Bullet>();
         List<Ship> ships = new List<Ship>();
 
+        //brush for drawing and sounds for playing
         SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
         SoundPlayer explode = new SoundPlayer(Resources.explode);
         SoundPlayer shooting = new SoundPlayer(Resources.shoot);
 
+        //bools for keydown and other gaem checks
         bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
 
+        //ints & variables for various froperties and functions
         int x, y, size, heroHealth, BossHealth, bulletSpeed, xBulletSpeed;
 
         int counter, dodgeCounter;
@@ -51,6 +61,7 @@ namespace HeckBullet
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
+            //runs all setupp code when the screen loads
             pictureBox1.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
 
             this.Focus();
@@ -69,6 +80,7 @@ namespace HeckBullet
             bulletSpeed = 5;
             xBulletSpeed = 1;
         }
+        //all key down events for the program
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             switch (e.KeyCode)
@@ -95,6 +107,7 @@ namespace HeckBullet
 
         }
 
+        //all key up events for the program
         private void GameScreen_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -119,11 +132,15 @@ namespace HeckBullet
                     break;
             }
         }
+
+        //runs every timer tick to update the screen
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            //creates rectangles for the ships
             Rectangle heroRec = new Rectangle(ships[hero].x, ships[hero].y, ships[hero].width - ships[hero].width / 2, ships[hero].height);
             Rectangle bossRec = new Rectangle(ships[boss].x, ships[boss].y, ships[boss].width, ships[boss].height - 100);
 
+            //checks if teh boss is at half health
             if (BossHealth == 1000)
             {
                 bulletSpeed = 7;
@@ -131,13 +148,13 @@ namespace HeckBullet
                 y = 150;
             }
 
+            //moves hero bullets
             foreach (Bullet b in HeroBullets)
             {
                 b.HeroBulletMove(5);
             }
 
-
-            // ADD COMMENTS TOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // randomizes attacks and ensures attacks dont repeat twice in a row
             if (counter < 1)
             {
                 previousAttack = attackType;
@@ -160,6 +177,8 @@ namespace HeckBullet
             else if (attackType == 3 && previousAttack != attackType)
             {
                 blast();
+                previousAttack = attackType;
+                attackType = randGen.Next(1, 6);
             }
             else if (attackType == 4 && previousAttack != attackType)
             {
@@ -174,6 +193,7 @@ namespace HeckBullet
                 attackType = randGen.Next(1, 6);
             }
 
+            //checks for dodgung
             if (dodging == false)
             {
                 if (spaceDown == true && counter % 3 == 0)
@@ -243,12 +263,14 @@ namespace HeckBullet
                 dodgeCounter--;
             }
 
+            //removes herobullets
             int index = HeroBullets.FindIndex(b => b.y <= 0 - b.size);
             if (index >= 0)
             {
                 HeroBullets.RemoveAt(index);
             }
 
+            //checks collision
             foreach (Bullet b in HeroBullets)
             {
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
@@ -276,7 +298,7 @@ namespace HeckBullet
             foreach (Bullet b in specialBullets)
             {
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
-                if (newRec.IntersectsWith(heroRec) && invincible == false)
+                if (newRec.IntersectsWith(heroRec) && invincible == false && BossHealth < 950)
                 {
                     explode.Play();
 
@@ -319,6 +341,7 @@ namespace HeckBullet
                 }
             }
 
+            //checks for hit and enables invincibility
             if (hit == true && dodgeCounter > 0)
             {
                 invincible = true;
@@ -333,6 +356,7 @@ namespace HeckBullet
                 ships[hero].image = Resources.HeroShip_fw1_;
             }
 
+            //checks for game ending values
             if (BossHealth <= 0)
             {
                 win();
@@ -342,12 +366,14 @@ namespace HeckBullet
                 lose();
             }
 
+            //moves enemy bullets
             bulletMoves();
             counter++;
 
             Refresh();
 
         }
+        //draws images and bullets to the creen
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             foreach (Bullet b in HeroBullets)
@@ -390,18 +416,21 @@ namespace HeckBullet
 
 
         }
+        //firing function
         private void fire()
         {
-            if (counter % 35 == 0)
-            {
-                shooting.Play();
-            }
+            //this sound lags my game so its commented out
+            //if (counter % 35 == 0)
+            //{
+            //    shooting.Play();
+            //}
             x = ships[hero].x + 3;
             y = ships[hero].y;
             image = Properties.Resources.HeroBullet;
             Bullet newBullet = new Bullet(x, y, size, image);
             HeroBullets.Add(newBullet);
         }
+        //ends game on a win
         private void win()
         {
             explode.Play();
@@ -418,6 +447,7 @@ namespace HeckBullet
 
             mm.Location = new Point(Form1.Width / 2 - mm.Width / 2, Form1.Height / 2 - mm.Height / 2);
         }
+        //ends game on a loss
         private void lose()
         {
             explode.Play();
@@ -434,6 +464,7 @@ namespace HeckBullet
 
             mm.Location = new Point(Form1.Width / 2 - mm.Width / 2, Form1.Height / 2 - mm.Height / 2);
         }
+        //random attack pattern
         private void randomPattern()
         {
             if (enemyBullet.Count() < 50 && counter % 4 == 0)
@@ -448,6 +479,7 @@ namespace HeckBullet
             }
 
         }
+        //lines to be summoned on half boss health
         private void Lines()
         {
             for (int i = 0; i < 55; i++)
@@ -477,6 +509,7 @@ namespace HeckBullet
             }
 
         }
+        //wave/zigzag attack pattern
         private void waves()
         {
             if (enemyBullet.Count() > 4)
@@ -509,6 +542,7 @@ namespace HeckBullet
                 }
             }
         }
+        //blast attack pattern
         private void blast()
         {
             x = 0;
@@ -534,6 +568,7 @@ namespace HeckBullet
             }
 
         }
+        //moving lines attack pattern
         private void dodgeLines()
         {
             x = 0;
@@ -550,6 +585,7 @@ namespace HeckBullet
                 }
             }
         }
+        //laser line attack pattern
         private void lasers()
         {
 
@@ -573,6 +609,7 @@ namespace HeckBullet
             }
         }
 
+        //moves all bullets and check if they've left the screen
         private void bulletMoves()
         {
             foreach (Bullet b in enemyBullet)
@@ -592,13 +629,13 @@ namespace HeckBullet
 
             if (enemyBullet.Count() > 0)
             {
-                if(enemyBullet[0].y > this.Height)
+                if (enemyBullet[0].y > this.Height)
                 {
                     enemyBullet.RemoveAt(0);
                 }
             }
 
-            if(leftEnemyBullet.Count() > 0)
+            if (leftEnemyBullet.Count() > 0)
             {
                 if (leftEnemyBullet[0].y > this.Height)
                 {
