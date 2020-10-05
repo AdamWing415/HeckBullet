@@ -140,9 +140,6 @@
     <None Include="Resources\HeroShip%28upside down%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shoot.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\white noise.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +147,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\explode.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shoot %282%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shoot.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

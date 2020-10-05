@@ -264,6 +264,7 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(heroRec) && invincible == false)
                 {
+                    explode.Play();
                     heroHealth--;
                     b.y = 0;
                     b.x = -50;
@@ -277,6 +278,8 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(heroRec) && invincible == false)
                 {
+                    explode.Play();
+
                     heroHealth--;
                     b.y = 0;
                     b.x = -50;
@@ -290,6 +293,8 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(heroRec) && invincible == false)
                 {
+                    explode.Play();
+
                     heroHealth--;
                     b.y = 0;
                     b.x = -50;
@@ -303,6 +308,8 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(heroRec) && invincible == false)
                 {
+                    explode.Play();
+
                     heroHealth--;
                     b.y = 0;
                     b.x = -50;
@@ -385,7 +392,10 @@ namespace HeckBullet
         }
         private void fire()
         {
-            shooting.Play();
+            if (counter % 35 == 0)
+            {
+                shooting.Play();
+            }
             x = ships[hero].x + 3;
             y = ships[hero].y;
             image = Properties.Resources.HeroBullet;
