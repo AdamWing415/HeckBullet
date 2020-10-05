@@ -7,11 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using HeckBullet.Properties;
 
 namespace HeckBullet
 {
     public partial class MainMenu : UserControl
     {
+        SoundPlayer buttonSound = new SoundPlayer(Resources.button);
+        SoundPlayer ambient = new SoundPlayer(Resources.white_noise);
+
         public MainMenu()
         {
             InitializeComponent();
@@ -19,11 +24,14 @@ namespace HeckBullet
 
         private void quitButton_Click(object sender, EventArgs e)
         {
+            buttonSound.Play();
             Application.Exit();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            buttonSound.Play();
+
             Form Form1 = this.FindForm();
             Form1.Controls.Remove(this);
             GameScreen gs = new GameScreen();
@@ -35,6 +43,7 @@ namespace HeckBullet
         private void MainMenu_Load(object sender, EventArgs e)
         {
             startButton.Focus();
+            ambient.Play();
         }
 
       

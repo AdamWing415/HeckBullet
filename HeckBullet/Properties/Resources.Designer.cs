@@ -81,12 +81,30 @@ namespace HeckBullet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream button {
+            get {
+                return ResourceManager.GetStream("button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap died {
             get {
                 object obj = ResourceManager.GetObject("died", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream explode {
+            get {
+                return ResourceManager.GetStream("explode", resourceCulture);
             }
         }
         
@@ -141,6 +159,15 @@ namespace HeckBullet.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream shoot {
+            get {
+                return ResourceManager.GetStream("shoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap title {
@@ -157,6 +184,15 @@ namespace HeckBullet.Properties {
             get {
                 object obj = ResourceManager.GetObject("victory", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream white_noise {
+            get {
+                return ResourceManager.GetStream("white_noise", resourceCulture);
             }
         }
     }

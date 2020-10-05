@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HeckBullet.Properties;
 using System.Threading;
+using System.Media;
 
 namespace HeckBullet
 {
@@ -23,6 +24,8 @@ namespace HeckBullet
         List<Ship> ships = new List<Ship>();
 
         SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
+        SoundPlayer explode = new SoundPlayer(Resources.explode);
+        SoundPlayer shooting = new SoundPlayer(Resources.shoot);
 
         bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
 
@@ -133,9 +136,9 @@ namespace HeckBullet
                 b.HeroBulletMove(5);
             }
 
-            
+
             // ADD COMMENTS TOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (counter <= 1)
+            if (counter < 1)
             {
                 previousAttack = attackType;
                 attackType = randGen.Next(1, 6);
@@ -382,6 +385,7 @@ namespace HeckBullet
         }
         private void fire()
         {
+            shooting.Play();
             x = ships[hero].x + 3;
             y = ships[hero].y;
             image = Properties.Resources.HeroBullet;
@@ -390,6 +394,7 @@ namespace HeckBullet
         }
         private void win()
         {
+            explode.Play();
             gameTimer.Stop();
             endlabel.Show();
             endlabel.Text = "VICTORY ACHIEVED";
@@ -405,6 +410,7 @@ namespace HeckBullet
         }
         private void lose()
         {
+            explode.Play();
             gameTimer.Stop();
             endlabel.Show();
             endlabel.Text = "YOU DIED";
@@ -522,16 +528,18 @@ namespace HeckBullet
         {
             x = 0;
             y = 0;
-            for (int i = 0; i < 75; i++)
-            {   
-                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
-                specialBullets.Add(newBullet);
-                
-                x += 15;
+            if (counter % 80 == 0)
+            {
+                for (int i = 0; i < 75; i++)
+                {
+                    Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                    enemyBullet.Add(newBullet);
 
+                    x += 15;
+
+                }
             }
         }
-
         private void lasers()
         {
 
@@ -572,20 +580,28 @@ namespace HeckBullet
                 b.randomMove(bulletSpeed);
             }
 
-            int index = enemyBullet.FindIndex(b => b.y > this.Height);
-            if (index >= 0)
+            if (enemyBullet.Count() > 0)
             {
-                enemyBullet.RemoveAt(index);
+                if(enemyBullet[0].y > this.Height)
+                {
+                    enemyBullet.RemoveAt(0);
+                }
             }
-            int leftIndex = leftEnemyBullet.FindIndex(b => b.y > this.Height);
-            if (index >= 0)
+
+            if(leftEnemyBullet.Count() > 0)
             {
-                enemyBullet.RemoveAt(leftIndex);
+                if (leftEnemyBullet[0].y > this.Height)
+                {
+                    leftEnemyBullet.RemoveAt(0);
+                }
             }
-            int rightIndex = rightEnemyBullet.FindIndex(b => b.y > this.Height);
-            if (index >= 0)
+
+            if (rightEnemyBullet.Count() > 0)
             {
-                rightEnemyBullet.RemoveAt(leftIndex);
+                if (rightEnemyBullet[0].y > this.Height)
+                {
+                    rightEnemyBullet.RemoveAt(0);
+                }
             }
         }
     }
