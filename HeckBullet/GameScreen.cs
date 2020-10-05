@@ -18,17 +18,19 @@ namespace HeckBullet
         List<Bullet> HeroBullets = new List<Bullet>();
         List<Bullet> enemyBullet = new List<Bullet>();
         List<Bullet> specialBullets = new List<Bullet>();
+        List<Bullet> leftEnemyBullet = new List<Bullet>();
+        List<Bullet> rightEnemyBullet = new List<Bullet>();
         List<Ship> ships = new List<Ship>();
 
         SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
 
         bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
 
-        int x, y, size, heroHealth, BossHealth, bulletSpeed;
+        int x, y, size, heroHealth, BossHealth, bulletSpeed, xBulletSpeed;
 
         int counter, dodgeCounter;
 
-        int attackType =  0;
+        int attackType = 0;
         int previousAttack = 0;
         int hero = 0;
         int boss = 1;
@@ -62,6 +64,7 @@ namespace HeckBullet
             dodgeCounter = 30;
             dodging = false;
             bulletSpeed = 5;
+            xBulletSpeed = 1;
         }
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -120,7 +123,7 @@ namespace HeckBullet
 
             if (BossHealth == 1000)
             {
-                bulletSpeed = 6;
+                bulletSpeed = 7;
                 Lines();
                 y = 150;
             }
@@ -130,26 +133,26 @@ namespace HeckBullet
                 b.HeroBulletMove(5);
             }
 
-            //ADD RANDOM ATTACKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
             // ADD COMMENTS TOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (counter <= 1)
             {
                 previousAttack = attackType;
-                attackType = randGen.Next(1, 5);
+                attackType = randGen.Next(1, 6);
             }
-            else if(counter% 800 == 0)
+            else if (counter % 800 == 0)
             {
                 previousAttack = attackType;
-                attackType = randGen.Next(1, 5);
+                attackType = randGen.Next(1, 6);
             }
 
-            if(attackType == 1 && previousAttack != attackType)
+            if (attackType == 1 && previousAttack != attackType)
             {
                 waves();
             }
             else if (attackType == 2 && previousAttack != attackType)
             {
-                randomPattern(bulletSpeed);
+                randomPattern();
             }
             else if (attackType == 3 && previousAttack != attackType)
             {
@@ -159,11 +162,15 @@ namespace HeckBullet
             {
                 lasers();
             }
+            else if (attackType == 5 && previousAttack != attackType)
+            {
+                dodgeLines();
+            }
             else
             {
-                attackType = randGen.Next(1, 5);
+                attackType = randGen.Next(1, 6);
             }
-                
+
             if (dodging == false)
             {
                 if (spaceDown == true && counter % 3 == 0)
@@ -244,7 +251,7 @@ namespace HeckBullet
                 Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
                 if (newRec.IntersectsWith(bossRec))
                 {
-                    BossHealth --;
+                    BossHealth--;
                     b.y = 0;
                     b.x = -50;
                 }
@@ -258,6 +265,46 @@ namespace HeckBullet
                     b.y = 0;
                     b.x = -50;
                     hit = true;
+                    invincible = true;
+                    dodgeCounter = 50;
+                }
+            }
+            foreach (Bullet b in specialBullets)
+            {
+                Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
+                if (newRec.IntersectsWith(heroRec) && invincible == false)
+                {
+                    heroHealth--;
+                    b.y = 0;
+                    b.x = -50;
+                    hit = true;
+                    invincible = true;
+                    dodgeCounter = 50;
+                }
+            }
+            foreach (Bullet b in leftEnemyBullet)
+            {
+                Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
+                if (newRec.IntersectsWith(heroRec) && invincible == false)
+                {
+                    heroHealth--;
+                    b.y = 0;
+                    b.x = -50;
+                    hit = true;
+                    invincible = true;
+                    dodgeCounter = 50;
+                }
+            }
+            foreach (Bullet b in rightEnemyBullet)
+            {
+                Rectangle newRec = new Rectangle(b.x, b.y, b.size, b.size);
+                if (newRec.IntersectsWith(heroRec) && invincible == false)
+                {
+                    heroHealth--;
+                    b.y = 0;
+                    b.x = -50;
+                    hit = true;
+                    invincible = true;
                     dodgeCounter = 50;
                 }
             }
@@ -284,8 +331,10 @@ namespace HeckBullet
             {
                 lose();
             }
+
+            bulletMoves();
             counter++;
-         
+
             Refresh();
 
         }
@@ -304,12 +353,20 @@ namespace HeckBullet
             {
                 e.Graphics.DrawImage(b.image, b.x, b.y);
             }
+            foreach (Bullet b in leftEnemyBullet)
+            {
+                e.Graphics.DrawImage(b.image, b.x, b.y);
+            }
+            foreach (Bullet b in rightEnemyBullet)
+            {
+                e.Graphics.DrawImage(b.image, b.x, b.y);
+            }
 
             foreach (Ship s in ships)
             {
                 e.Graphics.DrawImage(s.image, s.x, s.y, s.width, s.height);
             }
-            e.Graphics.FillRectangle(healthBrush, 20, 20, 30, BossHealth /4);
+            e.Graphics.FillRectangle(healthBrush, 20, 20, 30, BossHealth / 4);
 
             if (heroHealth == 2)
             {
@@ -361,7 +418,7 @@ namespace HeckBullet
 
             mm.Location = new Point(Form1.Width / 2 - mm.Width / 2, Form1.Height / 2 - mm.Height / 2);
         }
-        private void randomPattern(int speed)
+        private void randomPattern()
         {
             if (enemyBullet.Count() < 50 && counter % 4 == 0)
             {
@@ -373,18 +430,11 @@ namespace HeckBullet
                 Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
                 enemyBullet.Add(newBullet);
             }
-            foreach (Bullet b in enemyBullet)
-            {
-                b.randomMove(speed);
-            }
-            if (enemyBullet[0].y > this.Height)
-            {
-                enemyBullet.RemoveAt(0);
-            }
+
         }
         private void Lines()
         {
-            for(int i = 0;i <55; i++)
+            for (int i = 0; i < 55; i++)
             {
 
                 x = 200;
@@ -418,10 +468,10 @@ namespace HeckBullet
                 x = enemyBullet[enemyBullet.Count() - 5].x;
             }
 
-            if (x <= randGen.Next(2, 200) && counter %4 ==0)
+            if (x <= randGen.Next(2, 200) && counter % 4 == 0)
             {
 
-                x += randGen.Next(10,16);
+                x += randGen.Next(10, 16);
                 y = 0;
                 for (int i = 0; i < 5; i++)
                 {
@@ -430,9 +480,9 @@ namespace HeckBullet
                     x += 150;
                 }
             }
-            else if (x < randGen.Next(this.Width - 200, this.Width- 1) && counter % 4 == 0)
+            else if (x < randGen.Next(this.Width - 200, this.Width - 1) && counter % 4 == 0)
             {
-                
+
                 x -= randGen.Next(10, 16);
                 y = 0;
                 for (int i = 0; i < 5; i++)
@@ -442,28 +492,101 @@ namespace HeckBullet
                     x += 150;
                 }
             }
+        }
+        private void blast()
+        {
+            x = 0;
+            if (counter % 90 == 0)
+            {
+                y = 0;
+                for (int c = 0; c < 4; c++)
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Bullet leftBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                        leftEnemyBullet.Add(leftBullet);
+                        Bullet midBullet = new Bullet(x + 300, y, size, Properties.Resources.bullet);
+                        enemyBullet.Add(midBullet);
+                        Bullet rightBullet = new Bullet(x + 600, y, size, Properties.Resources.bullet);
+                        rightEnemyBullet.Add(rightBullet);
+                        x += 15;
+                    }
+                    x = 0;
+                    y -= 15;
+                }
 
+            }
 
+        }
+        private void dodgeLines()
+        {
+            x = 0;
+            y = 0;
+            for (int i = 0; i < 75; i++)
+            {   
+                Bullet newBullet = new Bullet(x, y, size, Properties.Resources.bullet);
+                specialBullets.Add(newBullet);
+                
+                x += 15;
+
+            }
+        }
+
+        private void lasers()
+        {
+
+            if (counter % 10 == 0)
+            {
+                y = 0;
+                x = randGen.Next(20, this.Width - 20);
+                for (int i = 0; i < 7; i++)
+                {
+                    Bullet newBullet = new Bullet(x, y, size, Resources.bullet);
+                    enemyBullet.Add(newBullet);
+                    y -= 15;
+                }
+            }
+            else if (counter % 5 == 0)
+            {
+                y = 0;
+                x = randGen.Next(20, this.Width - 20);
+                Bullet newBullet = new Bullet(x, y, size, Resources.bullet);
+                enemyBullet.Add(newBullet);
+            }
+        }
+
+        private void bulletMoves()
+        {
             foreach (Bullet b in enemyBullet)
             {
                 b.randomMove(bulletSpeed);
             }
-            if (enemyBullet[0].y > this.Height)
+            foreach (Bullet b in leftEnemyBullet)
             {
-                enemyBullet.RemoveAt(0);
+                b.BmoveLeft(xBulletSpeed);
+                b.randomMove(bulletSpeed);
             }
-        }
-        private void blast()
-        {
+            foreach (Bullet b in rightEnemyBullet)
+            {
+                b.BMoveRight(xBulletSpeed);
+                b.randomMove(bulletSpeed);
+            }
 
-            //add this attack
-
-        }
-        private void lasers()
-        {
-
-            //add this attack
-
+            int index = enemyBullet.FindIndex(b => b.y > this.Height);
+            if (index >= 0)
+            {
+                enemyBullet.RemoveAt(index);
+            }
+            int leftIndex = leftEnemyBullet.FindIndex(b => b.y > this.Height);
+            if (index >= 0)
+            {
+                enemyBullet.RemoveAt(leftIndex);
+            }
+            int rightIndex = rightEnemyBullet.FindIndex(b => b.y > this.Height);
+            if (index >= 0)
+            {
+                rightEnemyBullet.RemoveAt(leftIndex);
+            }
         }
     }
 }
