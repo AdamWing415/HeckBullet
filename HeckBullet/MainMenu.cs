@@ -14,6 +14,7 @@ namespace HeckBullet
 {
     public partial class MainMenu : UserControl
     {
+        //adds sounds
         SoundPlayer buttonSound = new SoundPlayer(Resources.button);
         SoundPlayer ambient = new SoundPlayer(Resources.white_noise);
 
@@ -24,12 +25,14 @@ namespace HeckBullet
 
         private void quitButton_Click(object sender, EventArgs e)
         {
+            //quits the application
             buttonSound.Play();
             Application.Exit();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            //starts the game and switches too teh game screen
             buttonSound.Play();
 
             Form Form1 = this.FindForm();
@@ -42,6 +45,7 @@ namespace HeckBullet
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
+            //focuses the button on load
             startButton.Focus();
             ambient.Play();
         }

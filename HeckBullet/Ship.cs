@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace HeckBullet
 {
     class Ship
+        //class to contain both the hero ship and the boss
     {
         public int x, y, height, width;
         public Image image;
@@ -22,7 +23,7 @@ namespace HeckBullet
             image = _image;
         }
         
-
+        //function for the hero to move
         public void heroMove(string direction)
         {
             switch (direction)
@@ -41,6 +42,7 @@ namespace HeckBullet
                     break;
             }
         }
+        //dodge function for the hero
         public void dodge(string direction)
         {
             switch (direction)

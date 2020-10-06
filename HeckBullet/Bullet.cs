@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace HeckBullet
 {
     class Bullet
+        //class for every bullet object
     {
         public int size, x, y;
         public Image image;
@@ -21,6 +22,7 @@ namespace HeckBullet
 
            
         }
+        //functions for moving tgeh bullets in different directions
         public void HeroBulletMove(int speed)
         {
             y -= speed;
