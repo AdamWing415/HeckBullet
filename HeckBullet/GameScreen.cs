@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using HeckBullet.Properties;
 using System.Threading;
 using System.Media;
+using System.IO;
 
 namespace HeckBullet
 {
@@ -33,7 +34,7 @@ namespace HeckBullet
         //brush for drawing and sounds for playing
         SolidBrush healthBrush = new SolidBrush(Color.OrangeRed);
         SoundPlayer explode = new SoundPlayer(Resources.explode);
-        SoundPlayer shooting = new SoundPlayer(Resources.shoot);
+        //SoundPlayer shooting = new SoundPlayer(Resources.shoot);
 
         //bools for keydown and other gaem checks
         bool wKeyDown, aKeyDown, sKeyDown, dKeyDown, spaceDown, mDown, dodging, invincible, hit;
@@ -161,7 +162,7 @@ namespace HeckBullet
                 previousAttack = attackType;
                 attackType = randGen.Next(1, 6);
             }
-            else if (counter % 800 == 0)
+            else if (counter % 700 == 0)
             {
                 previousAttack = attackType;
                 attackType = randGen.Next(1, 6);
