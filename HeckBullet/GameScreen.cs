@@ -143,7 +143,6 @@ namespace HeckBullet
             //checks if teh boss is at half health
             if (BossHealth == 1000)
             {
-                explode.Play();
                 ships[boss].image = Resources.boss_damaged;
                 bulletSpeed = 7;
                 Lines();
