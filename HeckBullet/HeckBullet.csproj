@@ -154,5 +154,8 @@
   <ItemGroup>
     <None Include="Resources\shoot.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boss-damaged.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
