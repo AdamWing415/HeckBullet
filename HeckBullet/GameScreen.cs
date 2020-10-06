@@ -421,11 +421,7 @@ namespace HeckBullet
         //firing function
         private void fire()
         {
-            //this sound lags my game so its commented out
-            //if (counter % 35 == 0)
-            //{
-            //    shooting.Play();
-            //}
+           
             x = ships[hero].x + 3;
             y = ships[hero].y;
             image = Properties.Resources.HeroBullet;
