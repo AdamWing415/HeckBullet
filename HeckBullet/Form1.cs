@@ -19,6 +19,7 @@ namespace HeckBullet
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //summons the mainscreen on load
             Form Form1 = this.FindForm();
             Form1.Controls.Remove(this);
             MainMenu mm = new MainMenu();
