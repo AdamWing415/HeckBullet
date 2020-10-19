@@ -69,5 +69,38 @@ namespace HeckBullet
             controlsScreen.Hide();
             startButton.Focus();
         }
+
+        private void backButton_Enter(object sender, EventArgs e)
+        {
+            backButton.BackColor = Color.Indigo;
+            startButton.BackColor = Color.Transparent;
+            controlsButton.BackColor = Color.Transparent;
+            quitButton.BackColor = Color.Transparent;
+
+        }
+
+        private void startButton_Enter(object sender, EventArgs e)
+        {
+            backButton.BackColor = Color.Transparent;
+            startButton.BackColor = Color.Indigo;
+            controlsButton.BackColor = Color.Transparent;
+            quitButton.BackColor = Color.Transparent;
+        }
+
+        private void controlsButton_Enter(object sender, EventArgs e)
+        {
+            backButton.BackColor = Color.Transparent;
+            startButton.BackColor = Color.Transparent;
+            controlsButton.BackColor = Color.Indigo;
+            quitButton.BackColor = Color.Transparent;
+        }
+
+        private void quitButton_Enter(object sender, EventArgs e)
+        {
+            backButton.BackColor = Color.Transparent;
+            startButton.BackColor = Color.Transparent;
+            controlsButton.BackColor = Color.Transparent;
+            quitButton.BackColor = Color.Indigo;
+        }
     }
 }

@@ -54,6 +54,7 @@
             this.startButton.Text = "START";
             this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.startButton.Enter += new System.EventHandler(this.startButton_Enter);
             // 
             // quitButton
             // 
@@ -67,10 +68,11 @@
             this.quitButton.Location = new System.Drawing.Point(16, 611);
             this.quitButton.Name = "quitButton";
             this.quitButton.Size = new System.Drawing.Size(260, 70);
-            this.quitButton.TabIndex = 1;
+            this.quitButton.TabIndex = 3;
             this.quitButton.Text = "QUIT";
             this.quitButton.UseVisualStyleBackColor = false;
             this.quitButton.Click += new System.EventHandler(this.quitButton_Click);
+            this.quitButton.Enter += new System.EventHandler(this.quitButton_Enter);
             // 
             // TitleLabel
             // 
@@ -95,10 +97,11 @@
             this.controlsButton.Location = new System.Drawing.Point(16, 535);
             this.controlsButton.Name = "controlsButton";
             this.controlsButton.Size = new System.Drawing.Size(260, 70);
-            this.controlsButton.TabIndex = 3;
+            this.controlsButton.TabIndex = 2;
             this.controlsButton.Text = "CONTROLS";
             this.controlsButton.UseVisualStyleBackColor = false;
             this.controlsButton.Click += new System.EventHandler(this.controlsButton_Click);
+            this.controlsButton.Enter += new System.EventHandler(this.controlsButton_Enter);
             // 
             // backButton
             // 
@@ -117,6 +120,7 @@
             this.backButton.UseVisualStyleBackColor = false;
             this.backButton.Visible = false;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            this.backButton.Enter += new System.EventHandler(this.backButton_Enter);
             // 
             // controlsScreen
             // 

@@ -74,7 +74,7 @@ namespace HeckBullet
 
             x = 200;
             heroHealth = 2;
-            BossHealth = 2000;
+            BossHealth = 1500;
             size = 15;
             dodgeCounter = 30;
             dodging = false;
@@ -142,7 +142,7 @@ namespace HeckBullet
             Rectangle bossRec = new Rectangle(ships[boss].x, ships[boss].y, ships[boss].width, ships[boss].height - 100);
 
             //checks if teh boss is at half health
-            if (BossHealth == 1000)
+            if (BossHealth == 500)
             {
                 ships[boss].image = Resources.boss_damaged;
                 bulletSpeed = 7;
