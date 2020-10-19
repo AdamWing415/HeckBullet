@@ -50,6 +50,24 @@ namespace HeckBullet
             ambient.Play();
         }
 
-      
+        private void controlsButton_Click(object sender, EventArgs e)
+        {
+            backButton.Show();
+            quitButton.Hide();
+            startButton.Hide();
+            controlsButton.Hide();
+            controlsScreen.Show();
+            backButton.Focus();
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            backButton.Hide();
+            quitButton.Show();
+            startButton.Show();
+            controlsButton.Show();
+            controlsScreen.Hide();
+            startButton.Focus();
+        }
     }
 }

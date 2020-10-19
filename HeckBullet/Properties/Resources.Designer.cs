@@ -102,6 +102,16 @@ namespace HeckBullet.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Controls_Screen {
+            get {
+                object obj = ResourceManager.GetObject("Controls_Screen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap died {
             get {
                 object obj = ResourceManager.GetObject("died", resourceCulture);
